@@ -1,9 +1,13 @@
 import VueRouter from 'vue-router'
 
+// const BlogList = resolve => require(['../views/blog/list.vue'], resolve)
+const UploadBlog = resolve => require(['../views/blog/upload.vue'], resolve)
+const UpdateBlog = resolve => require(['../views/blog/update.vue'], resolve)
+const BlogDetail = resolve => require(['../views/blog/detail.vue'], resolve)
 import BlogList from '../views/blog/list.vue'
-import UploadBlog from '../views/blog/upload.vue'
-import UpdateBlog from '../views/blog/update.vue'
-import BlogDetail from '../views/blog/detail.vue'
+// import UploadBlog from '../views/blog/upload.vue'
+// import UpdateBlog from '../views/blog/update.vue'
+// import BlogDetail from '../views/blog/detail.vue'
 
 const routes = [
   {path: '/blog/list', component: BlogList},
