@@ -2,7 +2,7 @@
   <div>
     <v-layout row justify-center>
       <v-flex xs16 sm10>
-        <v-card >
+        <v-card v-if="blog">
           <div>
             <v-btn class="light-blue lighten-2 white--text" @click.native.stop="edit" v-if="isAdmin">Edit</v-btn>
           </div>
@@ -28,7 +28,7 @@ import user from '../../global/global.js'
 export default {
   data () {
     return {
-      blog: {}
+      blog: null
     }
   },
   mounted () {

@@ -68,12 +68,35 @@ function BlogUpdate (data, callback, errCallback) {
     post(apiPrefix + '/blog/update', data, callback, errCallback)
   }
 }
+function BlogTagList (data, callback, errCallback) {
+  if (process.env.NODE_ENV === 'development') {
+    let resp = {data: {
+      blogs: mock.tagBlogs
+    }}
+    callback(resp)
+  } else {
+    post(apiPrefix + '/blog/list/tag', data, callback, errCallback)
+  }
+}
+
+function BlogSourceList (data, callback, errCallback) {
+  if (process.env.NODE_ENV === 'development') {
+    let resp = {data: {
+      blogs: mock.sourceBlogs
+    }}
+    callback(resp)
+  } else {
+    post(apiPrefix + '/blog/list/source', data, callback, errCallback)
+  }
+}
 
 export const BlogAPI = {
   list: BlogList,
   upload: BlogUpload,
   get: BlogGet,
-  update: BlogUpdate
+  update: BlogUpdate,
+  tagList: BlogTagList,
+  sourceList: BlogSourceList
 }
 
 function Login (data, callback, errCallback) {

@@ -36,7 +36,6 @@ import 'simplemde/dist/simplemde.min.css'
 import 'github-markdown-css'
 import SimpleMDE from 'simplemde'
 import marked from 'marked'
-
 export default {
   props: {
     blog: {
@@ -75,7 +74,7 @@ export default {
     let ele = document.querySelector('#editor__markdown input')
     let self = this
     console.log('self.blog.content ', self.blog.content)
-    this.mde = new SimpleMDE({element: ele, initialValue: self.blog.content})
+    this.mde = new SimpleMDE({element: ele})
   },
   methods: {
     save () {

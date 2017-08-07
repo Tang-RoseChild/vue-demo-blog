@@ -1,6 +1,6 @@
 <template>
   <div id="blog-list">
-    <list :blogs="blogs" @sourceClick="showBlogBySource" @tagClick="showBlogByTag" @itemClick="showDetailInfo"></list>
+    <list :blogs="blogs" @tagClick="showBlogByTag" @itemClick="showDetailInfo"></list>
   </div>
 </template>
 <script>
@@ -15,25 +15,21 @@ export default {
       blogs: []
     }
   },
-  mounted () {
-    let self = this
-    BlogAPI.list(function (resp) {
-      if (resp.data.blogs && resp.data.blogs.length) {
-        self.blogs = resp.data.blogs
-      }
-    })
-  },
   methods: {
     showDetailInfo (id) {
-      // console.log('id  in show deatial info > ', id)
       this.$router.push({name: 'detail-blog', params: {id: id}})
     },
     showBlogByTag (tag) {
       this.$router.push({name: 'tag-list', params: {tag: tag}})
-    },
-    showBlogBySource (source) {
-      this.$router.push({name: 'source-list', params: {source: source}})
     }
+  },
+  created () {
+    // console.log('in source-list vue ', this.$route.params.source)
+    BlogAPI.sourceList({source: this.$route.params.source}, resp => {
+      if (resp.data.blogs && resp.data.blogs.length) {
+        this.blogs = resp.data.blogs
+      }
+    })
   }
 }
 </script>
