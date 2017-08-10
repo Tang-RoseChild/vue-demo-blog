@@ -1,6 +1,24 @@
 import axios from 'axios'
 import mock from '../mock/mock.js'
+import {getToken, setToken} from '../global/global.js'
+import Vue from 'vue'
 
+Vue.prototype.$http = axios
+
+axios.interceptors.request.use(function (config) {
+  /* eslint-disable */
+  config.headers.authorization = getToken() ? getToken() : ''
+  return config
+})
+
+axios.interceptors.response.use(function (response) {
+  if (response.headers.authorization) {
+    setToken(response.headers.authorization)
+  }
+  return response
+}, function (error) {
+  return Promise.reject(error)
+})
 // function get (url, callback, errCallback) {
 //   axios.get(url)
 //   .then(function (resp) {
@@ -17,7 +35,7 @@ function post (url, data, callback, errCallback) {
     callback(resp)
   })
   .catch(function (error) {
-    console.log('error >> ', error)
+    // console.log('error >> ', error)
     errCallback(error)
   })
 }
