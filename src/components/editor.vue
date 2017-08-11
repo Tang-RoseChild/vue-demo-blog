@@ -87,7 +87,7 @@ export default {
       let content = this.mde.value()
       var div = document.createElement('div')
       div.innerHTML = marked(content)
-
+      // console.log('editor div ... ', div)
       if (!this.blog.description.length) {
         let directP = div.querySelectorAll('div > p')
         let headerEle = div.querySelectorAll('div > h1, div > h2, div > h3, div > h4, div > h5, div > h6')
@@ -101,6 +101,55 @@ export default {
         }
       }
       this.blog.content = content
+      let root = [{'id': 'root', 'isroot': true, 'topic': this.blog.title}]
+      let getParentID = function (nodes, node, idx) {
+        let isUL = node.nodeName === 'UL'
+        let no = null
+        if (!isUL) {
+          no = parseInt(node.nodeName[1])
+        }
+        for (let i = idx; i >= 0; i--) {
+          if (isUL && nodes[i].nodeName[0] === 'H') {
+            return nodes[i].id
+          } else {
+            let pno = parseInt(nodes[i].nodeName[1])
+            if (pno === (no - 1)) {
+              return nodes[i].id
+            }
+          }
+        }
+        return 'root'
+      }
+      let allHeaders = div.querySelectorAll('h1, h2, h3, h4, h5, h6, ul')
+      let idLookupMap = new Map()
+      // console.log('root >>>> xmind \n', div.querySelectorAll('h1, h2, h3, h4, h5, h6'))
+      let getID = function (key) {
+        while (true) {
+          if (!idLookupMap[key]) {
+            idLookupMap[key] = true
+            return key
+          } else {
+            key += '1'
+          }
+        }
+      }
+      allHeaders.forEach(function (val, idx) {
+        let parentID = getParentID(allHeaders, val, idx - 1)
+        if (val.nodeName === 'UL') {
+          let liNodes = val.querySelectorAll('li')
+          liNodes.forEach(function (li, liIdx) {
+            // console.log('li', li)
+            let liNode = {id: getID(`${parentID}-li${liIdx}`), parentid: parentID, topic: li.innerText}
+            root.push(liNode)
+          })
+        } else {
+          let newNode = {id: getID(val.id), parentid: parentID, topic: val.innerText}
+          // console.log('<<< new node ', newNode)
+          root.push(newNode)
+        }
+      })
+      // console.log('root ', root)
+      this.blog.points = JSON.stringify(root) // cause sqlite3 doesn't support array
       return this.blog
     }
   },

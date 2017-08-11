@@ -7,9 +7,6 @@ const BlogDetail = resolve => require(['../views/blog/detail.vue'], resolve)
 const TagList = resolve => require(['../views/blog/tag-list.vue'], resolve)
 const SourceList = resolve => require(['../views/blog/source-list.vue'], resolve)
 import BlogList from '../views/blog/list.vue'
-// import UploadBlog from '../views/blog/upload.vue'
-// import UpdateBlog from '../views/blog/update.vue'
-// import BlogDetail from '../views/blog/detail.vue'
 
 const routes = [
   {
@@ -25,6 +22,7 @@ const routes = [
   {path: '/blog/list/tag/:tag', name: 'tag-list', component: TagList},
   {path: '/blog/list/source/:source', name: 'source-list', component: SourceList},
   {path: '*', component: BlogList}
+  // {path: '*', component: Mind}
 ]
 let router = new VueRouter({
   routes

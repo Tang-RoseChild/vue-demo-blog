@@ -68,4 +68,5 @@ export default {
   right: 0px;
   z-index: 1000;
 }
+
 </style>
