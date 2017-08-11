@@ -46,17 +46,25 @@ export default {
         // console.log('show dialog >> data \n ', this.mind.data)
         setTimeout(() => {
           this.jm = jsMind.show(this.options, this.mind)
-          this.jm.view.e_nodes.querySelectorAll('jmnode').forEach(function (val) {
-            // console.log('val.nodeName  ', val.nodeName)
-            if (val.nodeName === 'JMNODE') {
-              val.setAttribute('title', val.innerText)
-            }
-          })
+          // this.jm.view.e_nodes.querySelectorAll('jmnode').forEach(function (val) {
+          //   // console.log('val.nodeName  ', val.nodeName)
+          //   if (val.nodeName === 'JMNODE') {
+          //     val.setAttribute('title', val.innerText)
+          //   }
+          // })
         })
       } else {
+        console.log('old jm >>>> >>>>>>>  >>>>>>>>>>')
         setTimeout(() => {
           this.mind.data = this.data
           this.jm.show(this.mind)
+          // console.log('old jm >>>> ', this.jm.view.e_nodes)
+          // this.jm.view.e_nodes.querySelectorAll('jmnode').forEach(function (val) {
+          //   // console.log('val.nodeName  ', val.nodeName)
+          //   if (val.nodeName === 'JMNODE') {
+          //     val.setAttribute('title', val.innerText)
+          //   }
+          // })
           // console.log('jm >>> ', this.jm.view.e_nodes)
         })
       }
@@ -86,5 +94,12 @@ export default {
             border:solid 1px #ccc;
             /*background:#f4f4f4;*/
             background:#f4f4f4;
+}
+
+jmnode.selected {
+  overflow: visible;
+  white-space: normal;
+  height: auto;
+  z-index: 9999;
 }
 </style>
