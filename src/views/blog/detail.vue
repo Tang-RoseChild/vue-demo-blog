@@ -21,31 +21,10 @@
 
 <script>
 import marked from 'marked'
-import {BlogAPI} from '../../api/api.js'
 import 'github-markdown-css'
-import user from '../../global/global.js'
 
 export default {
-  data () {
-    return {
-      blog: null
-    }
-  },
-  mounted () {
-    // console.log('this.$router.params', this.$route.params.id)
-    // fetch data
-    this.fetchData(this.$route.params.id)
-  },
   methods: {
-    fetchData (id) {
-      let self = this
-      BlogAPI.get({id: id}, function (response) {
-        // console.log('response in detail vue > ', response)
-        if (response.data.blog) {
-          self.blog = response.data.blog
-        }
-      })
-    },
     edit () {
       this.$router.push({name: 'update-blog', params: {id: this.blog.id}})
     }
@@ -56,11 +35,14 @@ export default {
         return marked(this.blog.content, {sanitize: true})
       }
     },
+    user () {
+      return this.$store.state.user
+    },
+    blog () {
+      return this.$store.state.blog
+    },
     isAdmin () {
-      if (user.mobile.length) {
-        return true
-      }
-      return false
+      return this.$store.getters.isAdmin
     }
   }
 }

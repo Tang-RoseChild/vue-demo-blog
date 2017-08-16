@@ -6,6 +6,8 @@
 <script>
 import {BlogAPI} from '../../api/api.js'
 import List from '../../components/list.vue'
+import {SET_BLOG_MUTATION} from '../../store/store.js'
+
 export default {
   components: {
     'list': List
@@ -16,9 +18,9 @@ export default {
     }
   },
   methods: {
-    showDetailInfo (id) {
-      console.log('itemClick ...  in tag-list ', id)
-      this.$router.push({name: 'detail-blog', params: {id: id}})
+    showDetailInfo (item) {
+      this.$router.push({name: 'detail-blog', params: {id: item.id}})
+      this.$store.commit(SET_BLOG_MUTATION, item)
     },
     showBlogBySource (source) {
       this.$router.push({name: 'source-list', params: {source: source}})

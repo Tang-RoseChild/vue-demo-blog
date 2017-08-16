@@ -80,15 +80,13 @@
 
 <script>
 import {AdminAPI} from './api/api.js'
-import user from './global/global.js'
+import store, {SET_USER_MUTATION} from './store/store.js'
 
 export default {
+  name: 'app',
+  store,
   data () {
     return {
-      account: {
-        avatar: '',
-        mobile: ''
-      },
       mini: false,
       drawer: false,
       timeout: 3000,
@@ -105,7 +103,11 @@ export default {
       }
     }
   },
-  name: 'app',
+  computed: {
+    account () {
+      return this.$store.state.user
+    }
+  },
   methods: {
     showSideIcon () {
       this.sideIcon = !this.sideIcon
@@ -114,7 +116,7 @@ export default {
       this.dialog = !this.dialog
     },
     login () {
-      console.log('login ......', this.loginForm)
+      // console.log('login ......', this.loginForm)
       let self = this
       AdminAPI.Login(self.loginForm, function (resp) {
         console.log('login resp >> ', resp)
@@ -124,9 +126,7 @@ export default {
           self.snackbar.open = true
           self.snackbar.context = 'success'
           self.snackbar.text = 'welcome ~'
-          self.account = resp.data.account
-          user.avatar = resp.data.account.avatar
-          user.mobile = resp.data.account.mobile
+          self.$store.commit(SET_USER_MUTATION, resp.data.account)
         } else {
           self.snackbar.open = true
           self.snackbar.context = 'error'

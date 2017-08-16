@@ -3,7 +3,7 @@
     <v-layout row justify-center v-show="!dialog">
       <v-flex xs14 sm8 >
         <v-card v-for="(item, idx) in blogs" :key="idx" class="blog-list-card" >
-          <v-card-title primary-title @click="showDetailInfo(item.id)">
+          <v-card-title primary-title @click="showDetailInfo(item)">
             <div>
               <div class="headline">{{item.title}} </div>
               <div>{{item.description}}</div>
@@ -46,8 +46,8 @@ export default {
     blogs: Array
   },
   methods: {
-    showDetailInfo (id) {
-      this.$emit('itemClick', id)
+    showDetailInfo (item) {
+      this.$emit('itemClick', item)
     },
     tagClick (tag) {
       this.$emit('tagClick', tag)
@@ -56,11 +56,8 @@ export default {
       this.$emit('sourceClick', source)
     },
     showDialog (item) {
-      // console.log('content ', content)
       this.dialog = true
       this.data = JSON.parse(item.points)
-      // console.log('points ::: ', item.points, ' after json:: ', JSON.parse(item.points))
-      // console.log('points ::: ', item.points)
     }
   }
 }

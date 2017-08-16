@@ -1,19 +1,19 @@
 import axios from 'axios'
 import mock from '../mock/mock.js'
-import {getToken, setToken} from '../global/global.js'
+import store from '../store/store.js'
 import Vue from 'vue'
 
 Vue.prototype.$http = axios
 
 axios.interceptors.request.use(function (config) {
   /* eslint-disable */
-  config.headers.authorization = getToken() ? getToken() : ''
+  config.headers.authorization = store.state.token ? store.state.token : ''
   return config
 })
 
 axios.interceptors.response.use(function (response) {
   if (response.headers.authorization) {
-    setToken(response.headers.authorization)
+    store.commit(SET_TOKEN_MUTATION, response.headers.authorization)
   }
   return response
 }, function (error) {
@@ -80,7 +80,7 @@ function BlogUpdate (data, callback, errCallback) {
     let resp = {data: {
       success: data.tag === 'demo',
       blog: mock.uploadBlogInfo
-    }}
+  }}
     callback(resp)
   } else {
     post(apiPrefix + '/blog/update', data, callback, errCallback)
