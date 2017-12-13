@@ -22,6 +22,8 @@
 <script>
 import marked from 'marked'
 import 'github-markdown-css'
+import {BlogAPI} from '../../api/api.js'
+import {SET_BLOG_MUTATION} from '../../store/store.js'
 
 export default {
   methods: {
@@ -43,6 +45,15 @@ export default {
     },
     isAdmin () {
       return this.$store.getters.isAdmin
+    }
+  },
+  created () {
+    if (!this.blog) {
+      // console.log('this.$router', this.$route)
+      BlogAPI.get({id: this.$route.params.id}, resp => {
+        // console.log('detail info >>> ', resp)
+        this.$store.commit(SET_BLOG_MUTATION, resp.data.blog)
+      })
     }
   }
 }

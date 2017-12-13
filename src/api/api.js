@@ -1,6 +1,6 @@
 import axios from 'axios'
 import mock from '../mock/mock.js'
-import store from '../store/store.js'
+import store, {SET_TOKEN_MUTATION} from '../store/store.js'
 import Vue from 'vue'
 
 Vue.prototype.$http = axios
